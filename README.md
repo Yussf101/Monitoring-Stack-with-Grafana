@@ -67,12 +67,6 @@ monitoring-project/
 
 ### Step 1: Clone the Repository
 
-```bash
-cd ~
-git clone https://github.com/Yussf101/monitoring-project.git
-cd monitoring-project
-```
-
 ### Step 2: Add VM IPs to `vm_list.txt`
 
 Edit the file:
