@@ -63,7 +63,7 @@ monitoring-project/
 - Docker & Docker Compose installed
 
 
-## 🚀 Running the Monitoring Stack on VM1 (Monitoring Server)
+## 🚀 Running the Monitoring Stack on the Monitoring Server
 
 ### Step 1: Clone the Repository
 
@@ -106,7 +106,7 @@ Login: `admin / admin`<br>
 
 ## 📅 Setting Up a VM to Be Monitored (Client VM)
 
-On each client VM (VM2, VM3, ...):
+On each client VM (VM1, VM2, ...):
 
 ### Step 1: Install Docker (if not already installed)
 
