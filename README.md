@@ -59,8 +59,8 @@ monitoring-project/
 
 ## 🛠️ Prerequisites
 
-- A Linux machine to run the monitoring stack (e.g., Ubuntu Server)
-- Docker & Docker Compose installed
+- A Linux machine to run the monitoring stack (e.g., Ubuntu Server).
+- Docker & Docker Compose installed.
 
 
 ## 🚀 Running the Monitoring Stack on the Monitoring Server
