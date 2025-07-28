@@ -1,0 +1,9 @@
+apiVersion: 1
+
+variables:
+  - name: instance
+    type: query
+    datasource: Prometheus
+    query: label_values(node_cpu_seconds_total, instance)
+    refresh: 1
+    includeAll: false
