@@ -205,8 +205,9 @@ This stack includes mainly two pre-configured Grafana dashboards adapted from [r
   - Memory consumption
   - Disk usage
   - Network I/O
+  - and more
 - Works **out of the box** with default Node Exporter setup (e.g., Docker-based).
-- Ideal for simple or quick setups.
+- Ideal for simple and majority of setups.
 
 ### 🚀 Advanced Dashboard (`node-advanced-dashboard.json`)
 
