@@ -212,7 +212,7 @@ This stack includes mainly two pre-configured Grafana dashboards adapted from [r
 ### 🚀 Advanced Dashboard (`node-advanced-dashboard.json`)
 
 - Includes **additional insights** such as:
-  - Active processes, threads, systemd unit states
+  - detailed kernel/system-level metrics
   - Hardware monitoring (fan speeds, temperatures)
   - Interrupt stats, TCP socket metrics
 - Requires running **Node Exporter directly on each monitored VM** (not via Docker) with previously mentioned flags enabled.
