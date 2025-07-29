@@ -106,7 +106,7 @@ Login: `admin / admin`<br>
 
 ## 📅 Setting Up a VM to Be Monitored (Client VM)
 
-On each client VM (VM1, VM2, ...):
+On each client VM (VM1, VM2, VM3 ...):
 
 ### Step 1: Install Docker (if not already installed)
 
@@ -183,7 +183,7 @@ sudo systemctl enable --now node_exporter
 ## ➕ Adding a New VM Later
 
 1. On VM client: run Node Exporter (see above)
-2. On VM1(monitoring server):
+2. On the monitoring server:
    - Edit `vm_list.txt` to add the new VM's IP in a new line
    - Regenerate config: `./generate-prometheus-config.sh`
    - Restart Prometheus:
