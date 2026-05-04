@@ -110,7 +110,7 @@ chmod +x generate-prometheus-config.sh
 docker-compose up -d
 ```
 
-### Accessing the services
+### Accessing the services via their corresponding ports
 
 - Grafana: http://<monitoring-server-ip>:3000  
 - Prometheus: http://<monitoring-server-ip>:9090  
