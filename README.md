@@ -1,14 +1,18 @@
-# 📊 Grafana Monitoring Stack with Prometheus and Node Exporter (Docker-Based)
+# Grafana Monitoring Stack with Prometheus and Node Exporter
 
-This repository contains a complete, production-ready **monitoring stack** for tracking multiple Linux systems' metrics(CPU, RAM, Storage...) with two pre-configured Grafana dashboards to suit different levels of system visibility using:
+This repository provides a simple monitoring setup for tracking metrics (CPU, memory, disk usage, and more) across multiple Linux machines. It includes pre-configured Grafana dashboards designed for different levels of detail.
 
-- [Grafana](https://grafana.com/): for dashboards and visualization.
-- [Prometheus](https://prometheus.io/): for scraping and storing metrics.
-- [Node Exporter](https://prometheus.io/docs/guides/node-exporter/): for exposing system metrics.
+The stack uses:
 
-Everything runs in **Docker containers** via `docker-compose`.
+- Grafana for visualization and dashboards  
+- Prometheus for collecting and storing metrics  
+- Node Exporter for exposing system metrics  
 
-## 📆 Project Structure
+All components run in Docker containers using `docker-compose`.
+
+---
+
+## Project Structure
 
 ```
 monitoring-project/
@@ -16,13 +20,13 @@ monitoring-project/
 ├── generate-prometheus-config.sh
 ├── prometheus/
 │   ├── prometheus.template.yml
-│   └── prometheus.yml (available after generation)
+│   └── prometheus.yml (generated)
 ├── grafana/
 │   ├── grafana.ini
 │   └── provisioning/
 │       ├── dashboards/
-│       │   └── node-main-dashboard.json
-│       │   └── node-advanced-dashboard.json
+│       │   ├── node-main-dashboard.json
+│       │   ├── node-advanced-dashboard.json
 │       │   └── node-minimal-dashboard.json
 │       ├── datasources/
 │       │   └── prometheus-datasource.yml
@@ -31,84 +35,102 @@ monitoring-project/
 ├── vm_list.txt
 ├── README.md
 ```
----
-
-## 📁 Contents Overview
-
-| File/Folder                                                    | Description                                                           |
-| ------------------------------------------------------------   | --------------------------------------------------------------------- |
-| `docker-compose.yml`                                           | Defines and starts Grafana and Prometheus services using Docker       |
-| `generate-prometheus-config.sh`                                | Script to generate `prometheus.yml` dynamically from `vm_list.txt`    |
-| `prometheus/`                                                  | Contains Prometheus configuration files                               |
-| `prometheus/prometheus.template.yml`                           | Template with placeholder `${VM_LIST}` used to generate actual config |
-| `prometheus/prometheus.yml`                                    | Config file with real targets for Prometheus (available after being generated)|
-| `grafana/`                                                     | Contains Grafana configuration and provisioning folders                     |
-| `grafana/grafana.ini`                                          | Main Grafana configuration (port, login, etc.)                        |
-| `grafana/provisioning/dashboards/node-main-dashboard.json`     | Main Dashboard with pre-defined system metrics panels                 |
-| `grafana/provisioning/dashboards/node-advanced-dashboard.json` | Same as Main Dashboard but with detailed kernel/system-level metrics  |
-| `grafana/provisioning/dashboards/node-minimal-dashboard.json`  | Basic minimal dashboard to customize as you want                                              |
-| `grafana/provisioning/datasources/prometheus-datasource.yml`   | Prometheus data source auto-provisioning                              |
-| `grafana/provisioning/variables/variables.yml`                 | Allows defining custom variables in dashboards automatically          |
-| `vm_list.txt`                                                  | List of IP addresses or hostnames of the VMs to monitor               |
-| `README.md`                                                    | Full documentation of the project                                     |
- 
----
-
 
 ---
 
-## 🛠️ Prerequisites
+## Contents Overview
 
-- A Linux machine to run the monitoring stack (e.g., Ubuntu Server).
-- Docker & Docker Compose installed.
+- `docker-compose.yml`  
+  Defines and runs Grafana and Prometheus services  
 
+- `generate-prometheus-config.sh`  
+  Generates the Prometheus configuration file from `vm_list.txt`  
 
-## 🚀 Running the Monitoring Stack on the Monitoring Server
+- `prometheus/`  
+  Contains Prometheus configuration files  
 
-### Step 1: Clone the Repository
+- `prometheus/prometheus.template.yml`  
+  Template used to generate the final configuration  
 
-### Step 2: Add VM IPs to `vm_list.txt`
+- `prometheus/prometheus.yml`  
+  Generated configuration file with actual monitoring targets  
 
-Edit the file:
+- `grafana/`  
+  Grafana configuration and provisioning files  
 
-```bash
-nano vm_list.txt
-```
+- `grafana/grafana.ini`  
+  Main Grafana configuration (port, authentication, etc.)  
 
-Add one IP per line: (for example for 2 VMs)
+- `grafana/provisioning/dashboards/`  
+  Pre-configured Grafana dashboards  
+
+- `grafana/provisioning/datasources/prometheus-datasource.yml`  
+  Automatically configures Prometheus as a data source  
+
+- `grafana/provisioning/variables/variables.yml`  
+  Defines reusable variables for dashboards  
+
+- `vm_list.txt`  
+  List of VM IPs or hostnames to monitor  
+
+---
+
+## Prerequisites
+
+- A Linux machine to run the monitoring stack (for example, Ubuntu Server)  
+- Docker and Docker Compose installed  
+
+---
+
+## Running the Monitoring Stack
+
+### 1. Clone the repository
+
+Clone this repository to your monitoring server.
+
+### 2. Add VM IPs
+
+Edit `vm_list.txt` and add one IP address or hostname per line:
 
 ```
 192.159.29.129
 192.159.29.130
 ```
 
-### Step 3: Generate Prometheus Configuration
+### 3. Generate Prometheus configuration
 
 ```bash
 chmod +x generate-prometheus-config.sh
 ./generate-prometheus-config.sh
 ```
 
-### Step 4: Start the Monitoring Stack
+### 4. Start the stack
 
 ```bash
 docker-compose up -d
 ```
 
-**To access Grafana or Prometheus:**<br>
+### Accessing the services
 
-Grafana: http\://*<monitoring-server-IP>*:3000 \
-Prometheus: http\://*<Your-monitoring-server-IP>*:9090 \
-Login: `admin / admin`<br>
-- *Add you monitoring host's IP in the http url for Grafana and Prometheus: example: http://192.168.1.100:3000*
+- Grafana: http://<monitoring-server-ip>:3000  
+- Prometheus: http://<monitoring-server-ip>:9090  
+
+Default Grafana login:
+
+```
+username: admin
+password: admin
+```
+
+Replace `<monitoring-server-ip>` with the actual IP of your monitoring server.
 
 ---
 
-## 📅 Setting Up a VM to Be Monitored (Client VM)
+## Setting Up a Client VM
 
-On each client VM (VM1, VM2, VM3 ...):
+On each machine you want to monitor:
 
-### Step 1: Install Docker (if not already installed)
+### 1. Install Docker (if needed)
 
 ```bash
 sudo apt update
@@ -116,7 +138,9 @@ sudo apt install -y docker.io
 sudo systemctl enable docker --now
 ```
 
-### Step 2: Run Node Exporter
+### 2. Run Node Exporter
+
+Basic setup using Docker:
 
 ```bash
 docker run -d \
@@ -127,7 +151,8 @@ docker run -d \
   prom/node-exporter \
   --path.rootfs=/host
 ```
-*if it doesn't work, try this instead:*
+
+If that does not work, use:
 
 ```bash
 docker run -d \
@@ -136,22 +161,27 @@ docker run -d \
   --restart unless-stopped \
   prom/node-exporter
 ```
-⚠️ Some panels in the advanced dashboard require Node Exporter to be installed as a system service with specific collectors enabled:
-- --collector.processes
-- --collector.systemd
-- --collector.tcpstat
-...
-These are not supported in Docker-based Node Exporter deployments.
-Instead run node exporter directly on the monitored host as:
+
+### Important note
+
+Some advanced dashboard panels require additional collectors that are not available in the Docker version of Node Exporter. These include:
+
+- `--collector.processes`  
+- `--collector.systemd`  
+- `--collector.tcpstat`  
+
+To enable these, install Node Exporter directly on the host:
 
 ```bash
-# 1. Download Node Exporter
 cd /opt
 sudo wget https://github.com/prometheus/node_exporter/releases/download/v1.8.1/node_exporter-1.8.1.linux-amd64.tar.gz
 sudo tar -xzf node_exporter-1.8.1.linux-amd64.tar.gz
 sudo mv node_exporter-1.8.1.linux-amd64 node_exporter
+```
 
-# 2. Create a systemd service with extra collectors
+Create a systemd service:
+
+```bash
 sudo tee /etc/systemd/system/node_exporter.service > /dev/null <<EOF
 [Unit]
 Description=Node Exporter
@@ -160,63 +190,71 @@ After=network-online.target
 
 [Service]
 User=nobody
-ExecStart=/opt/node_exporter/node_exporter \\
-  --collector.systemd \\
-  --collector.processes \\
-  --collector.tcpstat \\
-  --collector.interrupts \\
+ExecStart=/opt/node_exporter/node_exporter \
+  --collector.systemd \
+  --collector.processes \
+  --collector.tcpstat \
+  --collector.interrupts \
   --collector.hwmon
 
 [Install]
 WantedBy=default.target
 EOF
+```
 
-# 3. Enable and start the exporter
+Start the service:
+
+```bash
 sudo systemctl daemon-reexec
 sudo systemctl daemon-reload
 sudo systemctl enable --now node_exporter
-
 ```
 
 ---
 
-## ➕ Adding a New VM Later
+## Adding a New VM
 
-1. On VM client: run Node Exporter (see above)
-2. On the monitoring server:
-   - Edit `vm_list.txt` to add the new VM's IP in a new line
-   - Regenerate config: `./generate-prometheus-config.sh`
-   - Restart Prometheus:
-     ```bash
-     docker-compose restart prometheus
-     ```
-3. The new VM will appear in Grafana's instance dropdown automatically.
+To add another machine later:
+
+1. Start Node Exporter on the new VM  
+2. Add its IP to `vm_list.txt`  
+3. Regenerate the Prometheus config:
+
+```bash
+./generate-prometheus-config.sh
+```
+
+4. Restart Prometheus:
+
+```bash
+docker-compose restart prometheus
+```
+
+The new VM will automatically appear in Grafana.
 
 ---
 
-## 📊 Dashboards
+## Dashboards
 
-This stack includes mainly two pre-configured Grafana dashboards adapted from [rfmoz/grafana-dashboards](https://github.com/rfmoz/grafana-dashboards):
+This setup includes dashboards adapted from the rfmoz Grafana dashboards project.
 
-### ✅ Main Dashboard (`node-main-dashboard.json`)
+### Main Dashboard
 
-- Provides essential system metrics:
-  - CPU usage
-  - Memory consumption
-  - Disk usage
-  - Network I/O
-  - and more
-- Works **out of the box** with default Node Exporter setup (e.g., Docker-based).
-- Ideal for simple and majority of setups.
+- Shows essential system metrics:
+  - CPU usage  
+  - Memory usage  
+  - Disk usage  
+  - Network activity  
 
-### 🚀 Advanced Dashboard (`node-advanced-dashboard.json`)
+- Works with the default Node Exporter setup  
+- Suitable for most use cases  
 
-- Includes **additional insights** such as:
-  - detailed kernel/system-level metrics
-  - Hardware monitoring (fan speeds, temperatures)
-  - Interrupt stats, TCP socket metrics
-- Requires running **Node Exporter directly on each monitored VM** (not via Docker) with previously mentioned flags enabled.
-- Recommended for **production-grade monitoring** or when full system visibility is needed.
-  
-Use the **instance** dropdown at the top of Grafana to filter by VM.
+### Advanced Dashboard
 
+- Provides deeper system insights:
+  - Kernel-level metrics  
+  - Hardware monitoring (temperature, fans)  
+  - Interrupt and TCP statistics  
+
+- Requires Node Exporter installed directly on the host with extra collectors enabled  
+- Better suited for production environments  
